@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//Passport requirements 
+const passport = require('passport');
+const expressSession = require('express-session')
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -12,6 +16,20 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+//Passport (after view engine)
+app.use(expressSession({
+  resave : false ,
+  saveUninitialized: true,
+  secret : "hello hello bye bye "
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(usersRouter.serializeUser());
+passport.deserializeUser(usersRouter.deserializeUser())
+
+//----------------------------------------------------------------
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -1,0 +1,120 @@
+How to integrate Passport js in your project 
+
+    -------------------------  app.js -------------------------------------------
+
+//write it in top 
+
+let expressSession = require('express-session')
+const passport = require('passport');
+
+//Passport (after view engine)
+app.use(expressSession({
+  resave : false ,
+  saveUninitialized: true,
+  secret : "hello hello bye bye "
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(usersRouter.serializeUser());
+passport.deserializeUser(usersRouter.deserializeUser())
+
+
+
+----------------------------------- user.js ---------------------------------------------
+
+const mongoose = require('mongoose');
+const plm = require('passport-local-mongoose')
+
+mongoose.connect("mongodb://127.0.0.1:27017/pinterest")
+
+// Define the user schema
+const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  
+});
+
+userSchema.plugin(plm);
+// Create the user model
+const User = mongoose.model('User', userSchema);
+
+// Export the model
+module.exports = User;
+
+
+
+----------------------------------------------index.js ----------------------------------------------------------------
+
+//add this in top 
+const passport = require('passport');
+const localStrategy = require('passport-local')
+const userModel = require("./users")
+
+
+passport.use(new localStrategy(userModel.authenticate()))
+
+
+
+
+//Passport 
+
+router.get('/profile' ,isLoggedIn, function(req,res){
+  res.send('profile')
+})
+
+
+router.post('/register' , function(req,res){
+  var userdata = new userModel({
+    username : req.body.username,
+    secret : req.body.secret ,
+  })
+  userModel.register(userdata , req.body.password)
+    .then(function(registereduser){
+      passport.authenticate('local')(req,res,function(){
+        res.redirect('/profile/')
+      })
+    })
+})
+
+router.post('/login',passport.authenticate("local" , {
+  successRedirect:'/profile/' ,
+  failureRedirect:"/"
+}) , function(req,res){
+
+})
+
+router.get('/logout' , function(req,res,next){
+  req.logout(function(err){
+    if(err) return next(err);
+    res.redirect("/")
+  })
+})
+
+
+function isLoggedIn(req,res,next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect('/')
+}
+
+
+
+
+
+
+
+
