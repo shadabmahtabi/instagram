@@ -3,75 +3,83 @@
   <div class="w-full px-4 flex items-center justify-between">
     <img class="w-1/4" src="/images/logo.png" alt="" />
     <div class="icons -mt-2 flex gap-5 items-center">
-      <i class="text-[1.4rem] ri-heart-3-line"></i>
-      <i class="text-[1.4rem] ri-messenger-line"></i>
+      <a href="/notification">
+        <i class="text-[1.4rem] ri-heart-3-line"></i>
+      </a>
+      <a href="/message">
+        <i class="text-[1.4rem] ri-messenger-line"></i>
+      </a>
     </div>
   </div>
   <div class="story px-3 flex gap-3 overflow-auto mt-5">
     <div class="circle flex-shrink-0">
       <div
-        class="gradient w-[18vw] h-[18vw] bg-sky-100 rounded-full bg-gradient-to-r from-purple-700 to-orange-500 flex items-center justify-center"
+        class="w-[18vw] h-[18vw] bg-sky-100 rounded-full flex items-center justify-center"
       >
         <div class="inner w-[92%] h-[92%] rounded-full overflow-hidden">
           <img
+            src="/images/uploads/<%= user.profileImage %>"
+            alt="avatar"
             class="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=2550&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
           />
         </div>
       </div>
     </div>
-    <div class="circle flex-shrink-0">
+    <div class="circle flex-shrink-0 flex flex-col items-center gap-1">
       <div
         class="gradient w-[18vw] h-[18vw] bg-sky-100 rounded-full bg-gradient-to-r from-purple-700 to-orange-500 flex items-center justify-center"
       >
         <div class="inner w-[92%] h-[92%] rounded-full overflow-hidden">
           <img
             class="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1570158268183-d296b2892211?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://ss-i.thgim.com/public/cricket/t7tdzn/article54603981.ece/alternates/FREE_1200/Yuvraj-Singh"
             alt=""
           />
         </div>
       </div>
+      <p class="name">sixer_king</p>
     </div>
-    <div class="circle flex-shrink-0">
+    <div class="circle flex-shrink-0 flex flex-col items-center gap-1">
       <div
         class="gradient w-[18vw] h-[18vw] bg-sky-100 rounded-full bg-gradient-to-r from-purple-700 to-orange-500 flex items-center justify-center"
       >
         <div class="inner w-[92%] h-[92%] rounded-full overflow-hidden">
           <img
             class="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=2550&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.news18.com/ibnlive/uploads/2021/07/1627310607_ab-de-villiers.jpg"
             alt=""
           />
         </div>
       </div>
+      <p class="name">mr_360</p>
     </div>
-    <div class="circle flex-shrink-0">
+    <div class="circle flex-shrink-0 flex flex-col items-center gap-1">
       <div
         class="gradient w-[18vw] h-[18vw] bg-sky-100 rounded-full bg-gradient-to-r from-purple-700 to-orange-500 flex items-center justify-center"
       >
         <div class="inner w-[92%] h-[92%] rounded-full overflow-hidden">
           <img
             class="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1570158268183-d296b2892211?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://imgnew.outlookindia.com/public/uploads/articles/2021/10/12/Kohli-IPL-RCB-Celeb.jpg"
             alt=""
           />
         </div>
       </div>
+      <p class="name">king_kohli</p>
     </div>
-    <div class="circle flex-shrink-0">
+    <div class="circle flex-shrink-0 flex flex-col items-center gap-1">
       <div
         class="gradient w-[18vw] h-[18vw] bg-sky-100 rounded-full bg-gradient-to-r from-purple-700 to-orange-500 flex items-center justify-center"
       >
         <div class="inner w-[92%] h-[92%] rounded-full overflow-hidden">
           <img
             class="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=2550&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.indianexpress.com/2019/04/dhoni-759-10.jpg"
             alt=""
           />
         </div>
       </div>
+      <p class="name">mahi</p>
     </div>
     <div class="circle flex-shrink-0">
       <div
@@ -98,8 +106,9 @@
             alt=""
           />
         </div>
-        <h4 class="text-sm"><%=elem.user.username %></h4>
-        <h6 class="text-xs opacity-30">1d</h6>
+        <a href="/userprofile/<%= elem.user.username %>" class="text-sm"><%=elem.user.username %></a>
+        
+        <!-- <h6 class="text-xs opacity-30">1d</h6> -->
       </div>
       <div class="w-full h-96 mt-4 bg-sky-100 overflow-hidden">
         <img
@@ -114,9 +123,9 @@
         <div class="flex gap-3 mt-2">
           <a href="/like/post/<%= elem._id %>">
             <% if(elem.likes.indexOf(user._id) !== -1){ %>
-              <i class="ri-heart-3-fill text-red-600"></i>
+            <i class="ri-heart-3-fill text-red-600"></i>
             <% } else { %>
-              <i class="ri-heart-line"></i>
+            <i class="ri-heart-line"></i>
             <% } %>
           </a>
           <i class="ri-chat-3-line"></i>
@@ -137,13 +146,13 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function(event) { 
-      var scrollpos = localStorage.getItem('scrollpos');
-      if (scrollpos) window.scrollTo(0, scrollpos);
+  document.addEventListener("DOMContentLoaded", function (event) {
+    var scrollpos = localStorage.getItem("scrollpos");
+    if (scrollpos) window.scrollTo(0, scrollpos);
   });
 
-  window.onbeforeunload = function(e) {
-      localStorage.setItem('scrollpos', window.scrollY);
+  window.onbeforeunload = function (e) {
+    localStorage.setItem("scrollpos", window.scrollY);
   };
 </script>
 

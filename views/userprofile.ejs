@@ -1,0 +1,84 @@
+<% include ./partials/header.ejs %>
+<div class="w-full min-h-screen bg-zinc-900 text-white py-5">
+  <div class="nav flex justify-between items-center px-4">
+    <h3 class="text-lg"><%= userProfile.username %></h3>
+    <div class="icons flex gap-5"></div>
+  </div>
+  <div class="flex justify-between items-center pl-6 pr-[12vw] mt-8">
+    <div class="w-[19vw] h-[19vw] bg-sky-100 rounded-full overflow-hidden">
+      <img
+        src="/images/uploads/<%= userProfile.profileImage %>"
+        alt="avatar"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="stats flex gap-5 items-center justify-between">
+      <div class="flex flex-col items-center justify-center">
+        <h3><%= userProfile.posts.length %></h3>
+        <h4>Posts</h4>
+      </div>
+      <div class="flex flex-col items-center justify-center">
+        <h3><%= userProfile.followers.length %></h3>
+        <h4>Followers</h4>
+      </div>
+      <div class="flex flex-col items-center justify-center">
+        <h3><%= userProfile.following.length %></h3>
+        <h4>Following</h4>
+      </div>
+    </div>
+  </div>
+  <div class="dets px-6 mt-5">
+    <h3 class="text-lg mb-1"><%=userProfile.name%></h3>
+    <p class="text-xs tracking-tight opacity-50"><%=userProfile.bio%></p>
+  </div>
+  <div class="px-6 mt-5">
+    <!-- Follow Button -->
+    <% if (!user.following.includes(userProfile._id)) { %>
+    <form action="/follow/<%= userProfile.username %> "  method="post">
+      <button type="submit" class="px-12 py-1 bg-blue-700 rounded">Follow</button>
+    </form>
+    <% } else { %>
+    <!-- Display unfollow button if already following -->
+    <!-- You can implement the unfollow route similarly -->
+    <form action="/unfollow/<%= userProfile.username %>" method="post">
+      
+      <div class="flex gap-4">
+
+        <button type="submit" class="px-12 py-1 bg-white text-zinc-900 rounded">Following</button>
+        <button  class="px-12 py-1 bg-white text-zinc-900 rounded">Message</button>
+      </div>
+    </form>
+    <% } %>
+  </div>
+  <div class="posts w-full flex gap-1 py-2 mt-5 flex-wrap">
+    <% userPosts.forEach(function(post){ %>
+    <div class="post w-[32.5%] h-32 bg-sky-100 overflow-hidden">
+      <img
+        class="w-full h-full object-cover"
+        src="/images/uploads/<%= post.picture %>"
+        alt=""
+      />
+    </div>
+    <% }) %>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  const followForm = document.querySelector("#followForm");
+
+  followForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    try {
+      await axios.post(`/follow/${userProfile.username}`);
+      // Reload the page or update the UI as needed
+      location.reload();
+    } catch (error) {
+      console.error("Error following user:", error);
+    }
+  });
+</script>
+
+<% include ./partials/footer.ejs %>

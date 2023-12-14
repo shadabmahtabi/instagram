@@ -1,0 +1,48 @@
+<% include ./partials/header.ejs %>
+<div class="w-full min-h-screen bg-zinc-900 px-4 py-5">
+  <!-- <h1 class="text-white">Messages</h1> -->
+  <div
+    class="border-2 border-zinc-800 flex items-center justify-between px-2 py-1 rounded-md"
+  >
+    <i class="text-white ri-search-line"></i>
+    <input
+      id="inputusername"
+      class="ml-1 w-full bg-zinc-900 outline-none text-zinc-400"
+      type="text"
+      placeholder="search username"
+    />
+  </div>
+  <h1 class="text-white mt-5">Messages</h1>
+
+  <div class="users">
+    <% users.forEach(function(user) { %>
+      <a href="/userprofile/<%= user.username %>" class="outline-none">
+        <div class="text-white flex items-center justify-between gap-2">
+          <div class="text-white flex gap-4 mt-5">
+            <div class="image w-[11vw] h-[11vw] rounded-full bg-sky-100 overflow-hidden">
+              <img class="w-full h-full object-cover" src="/images/uploads/<%= user.profileImage %>" alt="">
+            </div>
+            <div class="text">
+              <h3><%= user.name %></h3>
+              <h4 class="text-sm opacity-60 leading-none mt-.5">Hey , how are you ?</h4>
+            </div>
+          </div>
+          <div>
+            <i class="ri-camera-line text-3xl"></i>
+          </div>
+        </div>
+      </a>
+    <% }); %>
+  </div>
+
+</div>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"
+  integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+
+<% include ./partials/footer.ejs %>
