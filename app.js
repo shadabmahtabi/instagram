@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const flash = require("connect-flash");
+
 
 //Passport requirements 
 const passport = require('passport');
@@ -23,6 +25,9 @@ app.use(expressSession({
   saveUninitialized: true,
   secret : "hello hello bye bye "
 }))
+
+// Initialize flash middleware
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
