@@ -356,161 +356,161 @@ router.post("/deletepost/:postId", isLoggedIn, async function (req, res) {
 
 //Forget Password
 
-router.get("/forgot", function (req, res) {
-  res.render("forgot", { footer: false });
-});
+// router.get("/forgot", function (req, res) {
+//   res.render("forgot", { footer: false });
+// });
 
-router.post("/forgot", async function (req, res, next) {
-  try {
-    const token = await new Promise((resolve, reject) => {
-      crypto.randomBytes(20, (err, buf) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(buf.toString("hex"));
-        }
-      });
-    });
+// router.post("/forgot", async function (req, res, next) {
+//   try {
+//     const token = await new Promise((resolve, reject) => {
+//       crypto.randomBytes(20, (err, buf) => {
+//         if (err) {
+//           reject(err);
+//         } else {
+//           resolve(buf.toString("hex"));
+//         }
+//       });
+//     });
 
-    const user = await userModel.findOne({
-      email: req.body.email,
-    });
+//     const user = await userModel.findOne({
+//       email: req.body.email,
+//     });
 
-    if (!user) {
-      req.flash("error", "No account with that email address exists.");
-      return res.redirect("/forgot");
-    }
+//     if (!user) {
+//       req.flash("error", "No account with that email address exists.");
+//       return res.redirect("/forgot");
+//     }
 
-    user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 60 * 60 * 1000;
+//     user.resetPasswordToken = token;
+//     user.resetPasswordExpires = Date.now() + 60 * 60 * 1000;
 
-    await user.save();
+//     await user.save();
 
-    const transporter = nodemailer.createTransport({
-      // Configure your nodemailer transporter (SMTP, Gmail, etc.)
-      service: "gmail",
-      host: 'smtp.example.com',
-      port: 465,
-      secure: true,
-      logger : true,
-      secureConnection : false,
-      auth: {
-        user: 'shaazakhtar12@gmail.com',
-        pass: 'gmailPassword@123',
-      },
-      tls:{
-        rejectUnauthorized : true,
-      }
-    });
+//     const transporter = nodemailer.createTransport({
+//       // Configure your nodemailer transporter (SMTP, Gmail, etc.)
+//       service: "gmail",
+//       host: 'smtp.example.com',
+//       port: 465,
+//       secure: true,
+//       logger : true,
+//       secureConnection : false,
+//       auth: {
+//         user: 'shaazakhtar12@gmail.com',
+//         pass: 'gmailPassword@123',
+//       },
+//       tls:{
+//         rejectUnauthorized : true,
+//       }
+//     });
 
-    const mailOptions = {
-      to: user.email,
-      from: "asadakhtar800@gmail.com",
-      subject: "Password Reset",
-      text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
-        Please click on the following link, or paste this into your browser to complete the process:\n\n
-        ${req.protocol}://${req.get("host")}/reset/${token}\n\n
-        If you did not request this, please ignore this email, and your password will remain unchanged.\n`,
-    };
+//     const mailOptions = {
+//       to: user.email,
+//       from: "asadakhtar800@gmail.com",
+//       subject: "Password Reset",
+//       text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n
+//         Please click on the following link, or paste this into your browser to complete the process:\n\n
+//         ${req.protocol}://${req.get("host")}/reset/${token}\n\n
+//         If you did not request this, please ignore this email, and your password will remain unchanged.\n`,
+//     };
 
-    await transporter.sendMail(mailOptions);
+//     await transporter.sendMail(mailOptions);
 
-    req.flash("info", `An e-mail has been sent to ${user.email} with further instructions.`);
-    res.redirect("/forgot");
-  } catch (error) {
-    console.error(error);
-    // Handle the error appropriately, possibly redirecting to an error page
-    res.status(500).send("Internal Server Error");
-  }
-});
-
-
+//     req.flash("info", `An e-mail has been sent to ${user.email} with further instructions.`);
+//     res.redirect("/forgot");
+//   } catch (error) {
+//     console.error(error);
+//     // Handle the error appropriately, possibly redirecting to an error page
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 
-router.get("/reset/:token",async function (req, res) {
-  try {
-    const user = await userModel.findOne({
-      resetPasswordToken: req.params.token,
-      resetPasswordExpires: { $gt: Date.now() },
-    });
+
+
+// router.get("/reset/:token",async function (req, res) {
+//   try {
+//     const user = await userModel.findOne({
+//       resetPasswordToken: req.params.token,
+//       resetPasswordExpires: { $gt: Date.now() },
+//     });
   
-    if (!user) {
-      req.flash("error", "Password reset token is invalid or has expired.");
-      return res.redirect("/forgot");
-    }
+//     if (!user) {
+//       req.flash("error", "Password reset token is invalid or has expired.");
+//       return res.redirect("/forgot");
+//     }
   
-    res.render("reset", { token: req.params.token, footer: false });
-  } catch (error) {
-    console.error(error);
-    // Handle the error appropriately, possibly redirecting to an error page
-    res.status(500).send("Internal Server Error");
-  }
-});
+//     res.render("reset", { token: req.params.token, footer: false });
+//   } catch (error) {
+//     console.error(error);
+//     // Handle the error appropriately, possibly redirecting to an error page
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 
 
 
-router.post("/reset/:token", async function (req, res) {
-  try {
-    const user = await userModel.findOne({
-      resetPasswordToken: req.params.token,
-      resetPasswordExpires: { $gt: Date.now() },
-    });
+// router.post("/reset/:token", async function (req, res) {
+//   try {
+//     const user = await userModel.findOne({
+//       resetPasswordToken: req.params.token,
+//       resetPasswordExpires: { $gt: Date.now() },
+//     });
 
-    if (!user) {
-      req.flash("error", "Password reset token is invalid or has expired.");
-      return res.redirect("/forgot");
-    }
+//     if (!user) {
+//       req.flash("error", "Password reset token is invalid or has expired.");
+//       return res.redirect("/forgot");
+//     }
 
-    user.setPassword(req.body.password, function () {
-      user.resetPasswordToken = undefined;
-      user.resetPasswordExpires = undefined;
+//     user.setPassword(req.body.password, function () {
+//       user.resetPasswordToken = undefined;
+//       user.resetPasswordExpires = undefined;
 
-      user.save(function (err) {
-        if (err) {
-          console.error(err);
-          // Handle the error appropriately, possibly redirecting to an error page
-          res.status(500).send("Internal Server Error");
-        }
+//       user.save(function (err) {
+//         if (err) {
+//           console.error(err);
+//           // Handle the error appropriately, possibly redirecting to an error page
+//           res.status(500).send("Internal Server Error");
+//         }
 
-        req.logIn(user, function (err) {
-          if (err) {
-            console.error(err);
-            // Handle the error appropriately, possibly redirecting to an error page
-            res.status(500).send("Internal Server Error");
-          }
+//         req.logIn(user, function (err) {
+//           if (err) {
+//             console.error(err);
+//             // Handle the error appropriately, possibly redirecting to an error page
+//             res.status(500).send("Internal Server Error");
+//           }
 
-          const transporter = nodemailer.createTransport({
-            // Configure your nodemailer transporter (SMTP, Gmail, etc.)
-          });
+//           const transporter = nodemailer.createTransport({
+//             // Configure your nodemailer transporter (SMTP, Gmail, etc.)
+//           });
 
-          const mailOptions = {
-            to: user.email,
-            from: "shaazakhtar12@gmail.com",
-            subject: "Your password has been changed",
-            text: `Hello,\n\n
-              This is a confirmation that the password for your account ${user.email} has just been changed.\n`,
-          };
+//           const mailOptions = {
+//             to: user.email,
+//             from: "shaazakhtar12@gmail.com",
+//             subject: "Your password has been changed",
+//             text: `Hello,\n\n
+//               This is a confirmation that the password for your account ${user.email} has just been changed.\n`,
+//           };
 
-          transporter.sendMail(mailOptions, function (err) {
-            if (err) {
-              console.error(err);
-              // Handle the error appropriately, possibly redirecting to an error page
-              res.status(500).send("Internal Server Error");
-            }
+//           transporter.sendMail(mailOptions, function (err) {
+//             if (err) {
+//               console.error(err);
+//               // Handle the error appropriately, possibly redirecting to an error page
+//               res.status(500).send("Internal Server Error");
+//             }
 
-            req.flash("success", "Success! Your password has been changed.");
-            res.redirect("/");
-          });
-        });
-      });
-    });
-  } catch (error) {
-    console.error(error);
-    // Handle the error appropriately, possibly redirecting to an error page
-    res.status(500).send("Internal Server Error");
-  }
-});
+//             req.flash("success", "Success! Your password has been changed.");
+//             res.redirect("/");
+//           });
+//         });
+//       });
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     // Handle the error appropriately, possibly redirecting to an error page
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 
 
