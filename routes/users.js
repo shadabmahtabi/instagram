@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const plm = require('passport-local-mongoose');
 
 // Connect to MongoDB
-mongoose.connect("mongodb://127.0.0.1:27017/instaclone");
+mongoose.connect("mongodb+srv://asadakhtar800:instaclone@cluster0.0h1ly2o.mongodb.net/");
 
 
 // Listen for the 'open' event to check if the connection is successful
