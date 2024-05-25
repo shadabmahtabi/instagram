@@ -1,1 +1,4 @@
 node_modules
+.env
+multer.txt
+passport.txt

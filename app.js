@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const flash = require("connect-flash");
+require("dotenv").config()
 
 
 //Passport requirements 
@@ -23,7 +24,7 @@ app.set('view engine', 'ejs');
 app.use(expressSession({
   resave : false ,
   saveUninitialized: true,
-  secret : "hello hello bye bye "
+  secret : process.env.SESSION_SECRET
 }))
 
 // Initialize flash middleware
